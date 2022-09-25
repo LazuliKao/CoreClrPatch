@@ -51,7 +51,7 @@ let generate(found:(string*SharpPdb.Native.PdbPublicSymbol)list)=
     printfn ""
     
 generate (fetch "LogInfoForFatalError")
-//generate (fetch "LogFatalError")
+generate (fetch "LogFatalError")
 
 
     
