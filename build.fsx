@@ -2,7 +2,7 @@
 open System.IO
 
 let offset = (-1024 + 4096);
-
+let length=40
 let fetch(str:string):(string*SharpPdb.Native.PdbPublicSymbol) list=
     let mutable result:(string*SharpPdb.Native.PdbPublicSymbol) list=[]
     for dir in "coreclr"|>Path.GetFullPath|>Directory.GetDirectories do
@@ -29,7 +29,7 @@ let generate(found:(string*SharpPdb.Native.PdbPublicSymbol)list)=
         let target=(int)item.RelativeVirtualAddress - offset
         let bytes=dll|>File.ReadAllBytes
         printfn "Signature of %s: " (dll|>Path.GetDirectoryName|>Path.GetFileName)
-        let res=bytes.[target..target+127]
+        let res=bytes.[target..target+length]
         for b in res do
             printf "%s " (b.ToString("X2"))
         printfn ""
@@ -42,7 +42,7 @@ let generate(found:(string*SharpPdb.Native.PdbPublicSymbol)list)=
             b.ToString("X2")
     |]
     for sample in samples do
-        for i = 0 to 127 do
+        for i = 0 to length do
             if temple.[i] <> sample.[i] then
                 templeStr.[i] <- "?";
     printfn "combined result"
